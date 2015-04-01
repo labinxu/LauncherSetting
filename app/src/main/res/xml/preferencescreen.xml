@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory>
+        <CheckBoxPreference
+            android:icon="@drawable/locker"
+            android:key="pref_switcher"
+            android:title="安心锁"
+            android:summary="开启"
+            android:defaultValue="true"
+            android:disableDependentsState="true"/>
+
+        <PreferenceScreen
+            android:dependency="pref_switcher"
+            android:key="pref_system_setting"
+            android:title="系统设置">
+            <intent
+                android:action="android.intent.action.MAIN"
+                android:targetPackage="com.android.settings"
+                android:targetClass="com.android.settings.Settings"/>
+        </PreferenceScreen>
+
+        <!--ListPreference
+            android:dependency="pref_switcher"
+            android:key="common_settings"
+            android:title="通用设置"
+            android:entries="@array/com_setting_options"
+            android:entryValues="@array/com_setting_options_values"
+            android:defaultValue="@string/opt_def_val"
+            android:dialogTitle="通用设置" >
+
+        </ListPreference-->
+        <PreferenceScreen
+            android:dependency="pref_switcher"
+            android:key="pref_universal_setting"
+            android:title="通用设置">
+            <intent
+                android:action="android.intent.action.MAIN"
+                android:targetPackage="com.stc.launchersetting"
+                android:targetClass="com.stc.launchersetting.UniversalSettingActivity"/>
+         </PreferenceScreen>
+
+        <Preference
+            android:dependency="pref_switcher"
+            android:key="pref_desktop_manager"
+            android:title="桌面管理">
+        </Preference>
+
+        <PreferenceScreen
+            android:title="关于"
+            android:key="ListPreference">
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

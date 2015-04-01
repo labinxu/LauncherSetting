@@ -1,0 +1,7 @@
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- These settings headers are only used on tablets. -->
+    <header
+        android:fragment="com.stc.launchersetting.UniversalSettingActivity$UniversalSettingPreferenceFragment"
+        android:title="@string/action_settings" />
+</preference-headers>

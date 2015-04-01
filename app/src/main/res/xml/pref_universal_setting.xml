@@ -1,0 +1,45 @@
+<PreferenceScreen
+    android:title="通用设置"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- A 'parent' preference, which enables/disables child preferences (below)
+         when checked/unchecked. -->
+    <SwitchPreference
+        android:key="pre_voice_broadcast"
+        android:title="语音播报"
+        android:summary="未开启"
+        android:defaultValue="false"/>
+
+    <SwitchPreference
+        android:key="pre_dial_sound"
+        android:title="拨号提示音"
+        android:summary="已开启"
+        android:defaultValue="true" />
+
+    <SwitchPreference
+        android:key="pre_caller_identification"
+        android:title="来电读名字"
+        android:summary="未开启"
+        android:defaultValue="false" />
+
+    <SwitchPreference
+        android:key="pre_cover_pic"
+        android:title="来电封面"
+        android:summary="未开启"
+        android:defaultValue="false"/>
+
+    <SwitchPreference
+        android:key="pre_lock_screen"
+        android:title="锁屏"
+        android:summary="已开启"
+        android:defaultValue="true" />
+    <com.stc.launchersetting.ColorPickerPreference
+        android:key="pre_picked_color"
+        android:dialogTitle="颜色选择"
+        android:title="背景颜色"
+        android:summary="更改背景颜色"
+        android:defaultValue="12345"
+        android:dialogLayout="@layout/color_picker_view"
+        android:persistent="true"/>
+
+</PreferenceScreen>
