@@ -5,3 +5,10 @@
 .DS_Store
 /build
 /app/build
+launcher/.gradle
+launcher/local.properties
+launcher/.idea/workspace.xml
+launcher/.idea/libraries
+launcher/.DS_Store
+launcher/build
+launcher/app/build
