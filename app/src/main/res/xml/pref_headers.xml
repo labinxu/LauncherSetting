@@ -2,6 +2,6 @@
 
     <!-- These settings headers are only used on tablets. -->
     <header
-        android:fragment="com.stc.launchersetting.UniversalSettingActivity$UniversalSettingPreferenceFragment"
+        android:fragment="com.stc.launchersetting.main.UniversalSettingActivity$UniversalSettingPreferenceFragment"
         android:title="@string/action_settings" />
 </preference-headers>

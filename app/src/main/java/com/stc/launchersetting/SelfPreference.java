@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.stc.launchersetting.R;
+
 import org.w3c.dom.Text;
 
 /**

@@ -1,28 +1,12 @@
 package com.stc.launchersetting;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.graphics.SweepGradient;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.preference.DialogPreference;
-import android.support.v4.widget.SlidingPaneLayout;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.SeekBar;
-
-import java.util.jar.Attributes;
 
 /**
  * Created by cninlaxu on 2015/3/30.

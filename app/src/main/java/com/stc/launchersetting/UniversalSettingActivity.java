@@ -3,27 +3,24 @@ package com.stc.launchersetting;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
-import android.text.TextUtils;
 import android.util.Log;
 
 
+import com.stc.launchersetting.R;
+import com.stc.launchersetting.com.stc.launchersetting.provider.Setting;
+import com.stc.launchersetting.com.stc.launchersetting.provider.SettingService;
+
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
+import java.util.Set;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -43,6 +40,7 @@ public class UniversalSettingActivity extends PreferenceActivity {
      * as a master/detail two-pane view on tablets. When true, a single pane is
      * shown on tablets.
      */
+
     private static final boolean ALWAYS_SIMPLE_PREFS = false;
 
     private static final String DEBUG_TAG = "Settings";
@@ -53,12 +51,33 @@ public class UniversalSettingActivity extends PreferenceActivity {
         setupSimplePreferencesScreen();
         Log.d(DEBUG_TAG, "onPostCreate");
     }*/
+    private HashMap<String,Integer> _hmKeyToType;
+    public SettingService settingService;
     @Override
     public void onCreate(Bundle saveInstanceState)
     {
         super.onCreate(saveInstanceState);
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new UniversalSettingPreferenceFragment(this)).commit();
+        settingService = new SettingService(this);
+        getFragmentManager().beginTransaction().replace(android.R.id.content,
+                new UniversalSettingPreferenceFragment(this)).commit();
+
+        _hmKeyToType = new HashMap<String, Integer>();
+        _hmKeyToType.put("pre_voice_broadcast", 1);
+        _hmKeyToType.put("pre_dial_sound", 2);
+        _hmKeyToType.put("pre_cover_pic", 3);
+        _hmKeyToType.put("pre_lock_screen", 4);
+        _hmKeyToType.put("pre_picked_color", 5);
+        _hmKeyToType.put("pre_caller_identification",6);
     }
+
+    public Set<String> getSettingKeys(){
+        return _hmKeyToType.keySet();
+    }
+
+    public int getType(String key){
+        return _hmKeyToType.get(key);
+    }
+
     /**
      * Shows the simplified settings UI if the device configuration if the
      * device configuration dictates that a simplified, single-pane UI should be
@@ -133,18 +152,34 @@ public class UniversalSettingActivity extends PreferenceActivity {
                     intent.setAction(MainActivity.ACTION_LAUNCHER_SETTING_PICK_COLOR);
                     intent.putExtra("pre_picked_color", stringValue);
                     sendBroadcast(intent);
+
+                    Setting setting = new Setting(key, getType(key));
+                    setting.set_keyValue(Integer.valueOf(stringValue));
+                    settingService.save(setting);
+
                 }
                 catch (Exception e)
                 {
                     e.printStackTrace();
                 }
             } else {
+                int keyValue = 0;
                 if (stringValue.equals("true")) {
                     preference.setSummary("已开启");
+                    keyValue = 1;
                 } else {
                     preference.setSummary("未开启");
+                    keyValue = 0;
                 }
 
+                Intent intent = new Intent();
+                intent.setAction(key);
+                intent.putExtra(key, stringValue);
+                sendBroadcast(intent);
+                Setting setting = new Setting(preference.getKey(), getType(preference.getKey()));
+
+                setting.set_keyValue(keyValue);
+                settingService.save(setting);
             }
             return true;
         }
@@ -191,12 +226,39 @@ public class UniversalSettingActivity extends PreferenceActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
             UniversalSettingActivity activity = (UniversalSettingActivity)context;
-            activity.bindPreferenceSummaryToValue(findPreference("pre_voice_broadcast"));
+            Set<String> settingKes = activity.getSettingKeys();
+            Iterator it = settingKes.iterator();
+            while (it.hasNext())
+            {
+                String key = (String) it.next();
+                activity.bindPreferenceSummaryToValue(findPreference(key));
+                Setting setting = new Setting(key, activity.getType(key));
+                activity.settingService.save(setting);
+            }
+
+            /*activity.bindPreferenceSummaryToValue(findPreference("pre_voice_broadcast"));
             activity.bindPreferenceSummaryToValue(findPreference("pre_dial_sound"));
             activity.bindPreferenceSummaryToValue(findPreference("pre_caller_identification"));
             activity.bindPreferenceSummaryToValue(findPreference("pre_cover_pic"));
             activity.bindPreferenceSummaryToValue(findPreference("pre_lock_screen"));
             activity.bindPreferenceSummaryToValue(findPreference("pre_picked_color"));
+
+
+
+            Setting voice_broadcast = new Setting("pre_voice_broadcast", 1);
+            Setting dial_sound = new Setting("pre_dial_sound", 2);
+            Setting cover_pic = new Setting("pre_cover_pic", 3);
+            Setting lock_screen = new Setting("pre_lock_screen", 4);
+            Setting picked_color = new Setting("pre_picked_color", 5);
+
+
+            activity.settingService.save(voice_broadcast);
+            activity.settingService.save(dial_sound);
+            activity.settingService.save(lock_screen);
+            activity.settingService.save(cover_pic);
+            activity.settingService.save(picked_color);*/
+
+
 
         }
     }

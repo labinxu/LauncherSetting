@@ -5,6 +5,8 @@ import android.preference.CheckBoxPreference;
 import android.preference.SwitchPreference;
 import android.util.AttributeSet;
 
+import com.stc.launchersetting.R;
+
 /**
  * Created by cninlaxu on 2015/3/25.
  */

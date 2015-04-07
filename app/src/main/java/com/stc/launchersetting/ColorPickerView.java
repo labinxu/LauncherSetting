@@ -11,7 +11,6 @@ import android.graphics.SweepGradient;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 
 /**
  * Created by cninlaxu on 2015/3/31.
@@ -37,7 +36,7 @@ public class ColorPickerView extends View{
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setShader(s);
         mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeWidth(60);
+        mPaint.setStrokeWidth(48);
 
         mCenterPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCenterPaint.setColor(0xFFFF00FF);
@@ -47,24 +46,6 @@ public class ColorPickerView extends View{
     public void setOnColorChangeListener(ColorPickerPreference.OnColorChangedListener l)
     {
         mListener = l;
-    }
-    public ColorPickerView(Context c, ColorPickerPreference.OnColorChangedListener l, int color){
-        super(c);
-        mListener = l;
-        mColors = new int[]{
-                0xFFFF0000, 0xFFFF00FF, 0xFF0000FF, 0xFF00FFFF, 0xFF00FF00,
-                0xFFFFFF00, 0xFFFF0000
-        };
-
-        Shader s = new SweepGradient(0,0, mColors, null);
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint.setShader(s);
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeWidth(32);
-
-        mCenterPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mCenterPaint.setColor(color);
-        mCenterPaint.setStrokeWidth(5);
     }
     private boolean mTrackingCenter;
     private boolean mHighlightCenter;
@@ -84,7 +65,8 @@ public class ColorPickerView extends View{
                 mCenterPaint.setAlpha(0x80);
             }
             canvas.drawCircle(0,0,
-                    CENTER_RADIUS , mCenterPaint);
+                    CENTER_RADIUS + mCenterPaint.getStrokeWidth(),
+                    mCenterPaint);
             mCenterPaint.setStyle(Paint.Style.FILL);
             mCenterPaint.setColor(c);
         }
@@ -92,8 +74,8 @@ public class ColorPickerView extends View{
     public void setColor(int c)
     {
         mCenterPaint.setColor(c);
-        mTrackingCenter = true;
-        mHighlightCenter = true;
+        //mTrackingCenter = true;
+        //mHighlightCenter = true;
         mListener.colorChanged(c);
         invalidate();
     }
